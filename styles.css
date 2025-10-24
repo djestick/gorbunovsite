@@ -284,7 +284,7 @@ body.is-menu-open .menu-toggle__icon::after {
 .button--primary {
   background: linear-gradient(135deg, var(--accent-primary), #2ddf62);
   color: #041204;
-  box-shadow: 0 14px 32px rgba(71, 255, 31, 0.35);
+  box-shadow: 0 0px 32px rgba(71, 255, 31, 0.35);
 }
 
 .button--primary:hover {
