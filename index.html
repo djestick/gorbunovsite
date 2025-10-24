@@ -11,29 +11,42 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Inter:ital,wght@1,400;1,600&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+    <div class="glow-layer" aria-hidden="true">
+      <div class="glow-layer__item glow-layer__item--hero"></div>
+      <div class="glow-layer__item glow-layer__item--portfolio"></div>
+      <div class="glow-layer__item glow-layer__item--comparison"></div>
+    </div>
     <header class="top-bar">
       <div class="container top-bar__inner">
         <div class="brand">
           <span class="brand__accent">Севка</span>
           <span class="brand__main">Гришин</span>
-          <span class="brand__role">Фотограф и ретушер</span>
         </div>
-        <nav class="main-nav" aria-label="Основная навигация по сайту">
-          <a href="#portfolio">Портфолио</a>
-          <a href="#pricing">Тарифы</a>
-          <a href="#reviews">Отзывы</a>
-          <a href="#cooperation">Сотрудничество</a>
-          <a href="#social">Соцсети</a>
-        </nav>
-        <a class="button button--primary" href="#contact"
-          >Записаться на съемку</a
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="top-bar-menu"
         >
+          <span class="visually-hidden">Открыть меню</span>
+          <span class="menu-toggle__icon" aria-hidden="true"></span>
+        </button>
+        <div class="top-bar__menu" id="top-bar-menu" aria-hidden="true">
+          <nav class="main-nav" aria-label="Основная навигация по сайту">
+            <a href="#portfolio">Портфолио</a>
+            <a href="#pricing">Тарифы</a>
+            <a href="#reviews">Отзывы</a>
+            <a href="#cooperation">Сотрудничество</a>
+            <a href="#social">Соцсети</a>
+          </nav>
+          <a class="button button--primary top-bar__cta" href="#contact">Записаться на съемку</a>
+        </div>
       </div>
     </header>
 

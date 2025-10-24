@@ -261,9 +261,102 @@
     });
   }
 
+  function initMobileMenu() {
+    const menuToggle = document.querySelector(".menu-toggle");
+    const menuPanel = document.getElementById("top-bar-menu");
+    if (!menuToggle || !menuPanel) {
+      return;
+    }
+
+    const body = document.body;
+    body.classList.add("has-mobile-menu");
+    const hiddenLabel = menuToggle.querySelector(".visually-hidden");
+    const openLabel = "Открыть меню";
+    const closeLabel = "Закрыть меню";
+    const root = document.documentElement;
+    const topBar = document.querySelector(".top-bar");
+
+    const updateTopBarHeight = () => {
+      if (!topBar) return;
+      const height = topBar.offsetHeight;
+      root.style.setProperty("--top-bar-height", `${height}px`);
+    };
+
+    updateTopBarHeight();
+
+    if ("ResizeObserver" in window && topBar) {
+      const resizeObserver = new ResizeObserver(() => updateTopBarHeight());
+      resizeObserver.observe(topBar);
+    } else {
+      window.addEventListener("resize", updateTopBarHeight, { passive: true });
+    }
+
+    const applyState = (isOpen, { focusToggle = true } = {}) => {
+      updateTopBarHeight();
+      body.classList.toggle("is-menu-open", isOpen);
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggle.setAttribute("aria-label", isOpen ? closeLabel : openLabel);
+      menuPanel.setAttribute("aria-hidden", String(!isOpen));
+      if (hiddenLabel) {
+        hiddenLabel.textContent = isOpen ? closeLabel : openLabel;
+      }
+      if (!isOpen && focusToggle) {
+        try {
+          menuToggle.focus({ preventScroll: true });
+        } catch (error) {
+          menuToggle.focus();
+        }
+      }
+    };
+
+    applyState(false, { focusToggle: false });
+
+    const isOpen = () => body.classList.contains("is-menu-open");
+
+    menuToggle.addEventListener("click", () => {
+      applyState(!isOpen());
+    });
+
+    menuPanel.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) {
+        return;
+      }
+
+      if (target === menuPanel && isOpen()) {
+        applyState(false, { focusToggle: false });
+        return;
+      }
+
+      if (target.closest("a") && isOpen()) {
+        applyState(false, { focusToggle: false });
+      }
+    });
+
+    document.addEventListener("keyup", (event) => {
+      if (event.key === "Escape" && isOpen()) {
+        applyState(false);
+      }
+    });
+
+    const mq = window.matchMedia("(min-width: 769px)");
+    const handleBreakpointChange = (event) => {
+      if (event.matches && isOpen()) {
+        applyState(false, { focusToggle: false });
+      }
+      updateTopBarHeight();
+    };
+
+    if (typeof mq.addEventListener === "function") {
+      mq.addEventListener("change", handleBreakpointChange);
+    } else if (typeof mq.addListener === "function") {
+      mq.addListener(handleBreakpointChange);
+    }
+  }
   function init() {
     initDualCarousel();
     initComparisonSliders();
+    initMobileMenu();
   }
 
   if (document.readyState === "loading") {
