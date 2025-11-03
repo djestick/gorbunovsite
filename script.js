@@ -261,6 +261,68 @@
     });
   }
 
+  function initFaqAccordion() {
+    const items = Array.from(document.querySelectorAll(".faq-item"));
+    if (!items.length) return;
+
+    const collapseItem = (item) => {
+      if (!item.classList.contains("is-open")) return;
+      const trigger = item.querySelector(".faq-item__trigger");
+      const panel = item.querySelector(".faq-item__panel");
+      if (!trigger || !panel) return;
+
+      item.classList.remove("is-open");
+      trigger.setAttribute("aria-expanded", "false");
+      panel.setAttribute("aria-hidden", "true");
+
+      panel.style.maxHeight = `${panel.scrollHeight}px`;
+      panel.offsetHeight;
+      panel.style.maxHeight = "0px";
+    };
+
+    const expandItem = (item) => {
+      const trigger = item.querySelector(".faq-item__trigger");
+      const panel = item.querySelector(".faq-item__panel");
+      if (!trigger || !panel) return;
+
+      item.classList.add("is-open");
+      trigger.setAttribute("aria-expanded", "true");
+      panel.setAttribute("aria-hidden", "false");
+      panel.style.maxHeight = `${panel.scrollHeight}px`;
+    };
+
+    items.forEach((item) => {
+      const trigger = item.querySelector(".faq-item__trigger");
+      const panel = item.querySelector(".faq-item__panel");
+      if (!trigger || !panel) return;
+
+      panel.style.maxHeight = "0px";
+      panel.setAttribute("aria-hidden", "true");
+
+      panel.addEventListener("transitionend", (event) => {
+        if (event.propertyName !== "max-height") return;
+        if (item.classList.contains("is-open")) {
+          panel.style.maxHeight = "none";
+        }
+      });
+
+      trigger.addEventListener("click", () => {
+        const isExpanded = trigger.getAttribute("aria-expanded") === "true";
+        items.forEach((other) => {
+          if (other !== item) {
+            collapseItem(other);
+          }
+        });
+
+        if (isExpanded) {
+          collapseItem(item);
+        } else {
+          expandItem(item);
+        }
+      });
+    });
+  }
+
   function initMobileMenu() {
     const menuToggle = document.querySelector(".menu-toggle");
     const menuPanel = document.getElementById("top-bar-menu");
@@ -356,6 +418,7 @@
   function init() {
     initDualCarousel();
     initComparisonSliders();
+    initFaqAccordion();
     initMobileMenu();
   }
 
