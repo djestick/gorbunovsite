@@ -58,10 +58,13 @@ body.has-mobile-menu.is-menu-open::before {
 }
 
 header,
-main,
 footer {
   position: relative;
   z-index: 1;
+}
+
+main {
+  position: relative;
 }
 
 .glow-layer {
@@ -71,7 +74,7 @@ footer {
   width: 100%;
   min-height: 100%;
   pointer-events: none;
-  z-index: 0;
+  z-index: 3;
   overflow: visible;
 }
 
@@ -289,7 +292,7 @@ body.is-menu-open .menu-toggle__icon::after {
 
 .button--primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 18px 40px rgba(71, 255, 31, 0.45);
+  box-shadow: 0 0px 050px rgba(71, 255, 31, 0.45);
 }
 
 .button--secondary {
@@ -313,24 +316,38 @@ body.is-menu-open .menu-toggle__icon::after {
 }
 
 .hero {
-  padding: 8rem 0 6rem;
   position: relative;
   overflow: hidden;
+  padding-bottom: 6rem;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  margin-top: -5rem;
 }
+
+
 
 .hero::before {
   content: "";
   position: absolute;
   inset: 0;
-  opacity: 0.9;
-  z-index: 1;
+  z-index: 0;
+  background: var(--gradient-hero);
+  pointer-events: none;
 }
 
 .hero__inner {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  position: relative;
+  z-index: 2;
   gap: 3rem;
   align-items: center;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
 }
 
 .hero__content h1 {
@@ -361,6 +378,23 @@ body.is-menu-open .menu-toggle__icon::after {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+}
+
+.hero__image {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+
+
+
+.hero__image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: right;
 }
 
 .hero__stats {
@@ -496,7 +530,7 @@ body.is-menu-open .menu-toggle__icon::after {
   flex: 0 0 240px;
   border-radius: 1.3rem;
   overflow: hidden;
-  background: rgba(33, 34, 38, 0.92);
+  background: transparent;
   box-shadow: 0 22px 45px rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.06);
   display: flex;
@@ -512,7 +546,7 @@ body.is-menu-open .menu-toggle__icon::after {
 
 .carousel-card img {
   width: 100%;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
 }
 
@@ -524,74 +558,34 @@ body.is-menu-open .menu-toggle__icon::after {
 }
 
 .carousel-card--orange {
-  background: linear-gradient(
-    160deg,
-    rgba(71, 255, 31, 0.22),
-    rgba(20, 21, 23, 0.9)
-  );
+
 }
 .carousel-card--violet {
-  background: linear-gradient(
-    160deg,
-    rgba(148, 255, 106, 0.24),
-    rgba(24, 26, 31, 0.9)
-  );
+
 }
 .carousel-card--cyan {
-  background: linear-gradient(
-    160deg,
-    rgba(88, 255, 180, 0.24),
-    rgba(18, 22, 28, 0.9)
-  );
+
 }
 .carousel-card--lime {
-  background: linear-gradient(
-    160deg,
-    rgba(71, 255, 31, 0.26),
-    rgba(17, 21, 18, 0.92)
-  );
+
 }
 .carousel-card--gold {
-  background: linear-gradient(
-    160deg,
-    rgba(148, 255, 106, 0.2),
-    rgba(24, 24, 24, 0.9)
-  );
+
 }
 .carousel-card--teal {
-  background: linear-gradient(
-    160deg,
-    rgba(38, 166, 154, 0.32),
-    rgba(16, 40, 35, 0.85)
-  );
+
 }
 .carousel-card--blush {
-  background: linear-gradient(
-    160deg,
-    rgba(255, 128, 171, 0.32),
-    rgba(47, 18, 31, 0.85)
-  );
+
 }
 .carousel-card--navy {
-  background: linear-gradient(
-    160deg,
-    rgba(70, 100, 255, 0.32),
-    rgba(10, 13, 45, 0.85)
-  );
+
 }
 .carousel-card--peach {
-  background: linear-gradient(
-    160deg,
-    rgba(255, 180, 120, 0.32),
-    rgba(45, 24, 18, 0.85)
-  );
+
 }
 .carousel-card--gray {
-  background: linear-gradient(
-    160deg,
-    rgba(180, 180, 190, 0.32),
-    rgba(30, 30, 35, 0.85)
-  );
+
 }
 
 .comparison-section {
@@ -920,6 +914,36 @@ body.is-menu-open .menu-toggle__icon::after {
   .carousel-card {
     width: 200px;
     flex: 0 0 200px;
+  }
+
+  .glow-layer {
+    overflow: hidden;
+  }
+
+  .glow-layer__item {
+    width: clamp(16rem, 60vw, 24rem);
+    height: clamp(16rem, 60vw, 24rem);
+    left: 50%;
+    --glow-blur: 90px;
+    --glow-opacity: 0.45;
+  }
+
+  .glow-layer__item--hero,
+  .glow-layer__item--portfolio,
+  .glow-layer__item--comparison {
+    --glow-left: 50%;
+  }
+
+  .glow-layer__item--hero {
+    --glow-top: 20rem;
+  }
+
+  .glow-layer__item--portfolio {
+    --glow-top: 48rem;
+  }
+
+  .glow-layer__item--comparison {
+    --glow-top: 88rem;
   }
 }
 
